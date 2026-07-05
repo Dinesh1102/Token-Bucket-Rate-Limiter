@@ -40,9 +40,7 @@ func (h *Handler) CheckRateLimit(c *gin.Context) {
 	}
 
 	// Standard Rate Limit Headers
-	c.Header("X-RateLimit-Limit", decision.LimitString())
-	c.Header("X-RateLimit-Remaining", decision.RemainingString())
-	c.Header("X-RateLimit-Reset", decision.ResetString())
+	setRateLimitHeaders(c, decision)
 
 	// Response
 	if !decision.Allowed {
