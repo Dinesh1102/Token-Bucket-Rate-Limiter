@@ -42,18 +42,16 @@ func (h *Handler) CheckRateLimit(c *gin.Context) {
 	// Standard Rate Limit Headers
 	setRateLimitHeaders(c, decision)
 
-	// Response
-	if !decision.Allowed {
-		c.Header("Retry-After", decision.RetryAfterString())
-
-		c.JSON(http.StatusTooManyRequests, CheckResponse{
-			Allowed: false,
-			Message: "rate limit exceeded",
-		})
-		return
+	status := http.StatusOK
+	response := CheckResponse{
+		Allowed: true,
 	}
 
-	c.JSON(http.StatusOK, CheckResponse{
-		Allowed: true,
-	})
+	if !decision.Allowed {
+		status = http.StatusTooManyRequests
+		response.Allowed = false
+		response.Message = "rate limit exceeded"
+	}
+
+	c.JSON(status, response)
 }
