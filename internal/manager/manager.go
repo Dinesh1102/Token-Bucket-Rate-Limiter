@@ -3,7 +3,11 @@ package manager
 import (
 	"context"
 
+	"rate-limiter/internal/algorithm"
+	"rate-limiter/internal/config"
+	"rate-limiter/internal/metrics"
 	"rate-limiter/internal/models"
+	"rate-limiter/internal/state"
 )
 
 type RateLimiterManager interface {
@@ -11,22 +15,22 @@ type RateLimiterManager interface {
 }
 
 type rateLimiterManager struct {
-	configManager    ConfigManager
-	stateManager     StateManager
-	algorithmFactory AlgorithmFactory
-	metricsCollector MetricsCollector
+	configManager    config.ConfigManager
+	stateManager     state.StateManager
+	algorithmManager *algorithm.Manager
+	metricsCollector metrics.MetricsCollector
 }
 
 func NewRateLimiterManager(
-	configManager ConfigManager,
-	stateManager StateManager,
-	algorithmFactory AlgorithmFactory,
-	metricsCollector MetricsCollector,
+	configManager config.ConfigManager,
+	stateManager state.StateManager,
+	algorithmManager *algorithm.Manager,
+	metricsCollector metrics.MetricsCollector,
 ) RateLimiterManager {
 	return &rateLimiterManager{
 		configManager:    configManager,
 		stateManager:     stateManager,
-		algorithmFactory: algorithmFactory,
+		algorithmManager: algorithmManager,
 		metricsCollector: metricsCollector,
 	}
 }
