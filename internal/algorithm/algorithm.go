@@ -10,7 +10,7 @@ type Algorithm interface {
 }
 
 type Manager struct {
-	tokenBucket  Algorithm
+	tokenBucket   Algorithm
 	slidingWindow Algorithm
 }
 
@@ -19,19 +19,19 @@ func NewManager(
 	slidingWindow Algorithm,
 ) *Manager {
 	return &Manager{
-		tokenBucket:  tokenBucket,
+		tokenBucket:   tokenBucket,
 		slidingWindow: slidingWindow,
 	}
 }
 
-func (m *Manager) Get(name string) (Algorithm, error) {
+func (m *Manager) Get(name models.AlgorithmName) (Algorithm, error) {
 
 	switch name {
 
-	case "TOKEN_BUCKET":
+	case models.AlgorithmTokenBucket:
 		return m.tokenBucket, nil
 
-	case "SLIDING_WINDOW":
+	case models.AlgorithmSlidingWindow:
 		return m.slidingWindow, nil
 
 	default:
