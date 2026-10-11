@@ -69,6 +69,12 @@ func (h *Handler) CreateClient(c *gin.Context) {
 		})
 		return
 	}
+	if err := validateClientConfig(req.Algorithm, req.Rate, req.Burst); err != nil {
+		c.JSON(http.StatusBadRequest, ErrorResponse{
+			Error: err.Error(),
+		})
+		return
+	}
 
 	clientConfig := models.ClientConfig{
 		ClientKey: req.ClientKey,
@@ -122,6 +128,12 @@ func (h *Handler) UpdateClient(c *gin.Context) {
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, ErrorResponse{
 			Error: "invalid request body",
+		})
+		return
+	}
+	if err := validateClientConfig(req.Algorithm, req.Rate, req.Burst); err != nil {
+		c.JSON(http.StatusBadRequest, ErrorResponse{
+			Error: err.Error(),
 		})
 		return
 	}
