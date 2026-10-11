@@ -38,9 +38,7 @@ func (h *Handler) CheckRateLimit(c *gin.Context) {
 	// Call business layer
 	decision, err := h.manager.Check(c.Request.Context(), req.ClientKey)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, ErrorResponse{
-			Error: "internal server error",
-		})
+		writeCheckError(c, err)
 		return
 	}
 
