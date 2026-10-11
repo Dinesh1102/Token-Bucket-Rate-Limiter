@@ -19,7 +19,7 @@ func main() {
 	stateManager := state.NewMemoryStateManager()
 	algorithmManager := algorithm.NewManager(
 		algorithm.NewTokenBucket(),
-		nil,
+		algorithm.NewSlidingWindow(),
 	)
 	metricsCollector := metrics.NewNoopCollector()
 

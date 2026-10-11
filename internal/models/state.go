@@ -13,6 +13,7 @@ type TokenBucketState struct {
 }
 
 type SlidingWindowState struct {
-	WindowStart time.Time
-	Count       int
+	WindowStart   time.Time
+	Count         int
+	PreviousCount int
 }
